@@ -1,9 +1,10 @@
+import 'package:demonstration/logic/models/repositories.dart';
 import 'package:flutter/material.dart';
 
 import 'repository.dart';
 
 class HomeBody extends StatelessWidget {
-  final List repositoryList;
+  final List<Repositories> repositoryList;
   HomeBody({this.repositoryList});
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class HomeBody extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
           itemBuilder: (context, index) {
-            return Repository(repository: repositoryList[index]);
+            return RepositoryWidget(repositories: repositoryList[index]);
           },
           itemCount: repositoryList.length,
         ),

@@ -1,5 +1,6 @@
+import 'package:demonstration/logic/models/repositories.dart';
 import 'package:graphql/client.dart';
-import 'token.dart';
+import '../token.dart';
 
 GraphQLClient getGithubGraphQLClient() {
   final Link _link = HttpLink(
@@ -17,7 +18,7 @@ GraphQLClient getGithubGraphQLClient() {
 }
 
 /// query example - fetch all your github repositories
-Future<List<dynamic>> readRepositories() async {
+Future<List<Repositories>> readRepositories() async {
   final GraphQLClient _client = getGithubGraphQLClient();
 
   const int nRepositories = 50;
@@ -59,8 +60,12 @@ Future<List<dynamic>> readRepositories() async {
 
   final QueryResult result = await _client.query(options);
 
-  final List<dynamic> repositories =
-      result.data['viewer']['repositories']['nodes'] as List<dynamic>;
+  final List<dynamic> nodes = result.data['viewer']['repositories']['nodes'];
+  List<Repositories> repositories = [];
+
+  nodes.forEach((element) {
+    repositories.add(Repositories(name: element["name"]));
+  });
 
   return repositories;
 }
